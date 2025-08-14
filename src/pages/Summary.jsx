@@ -5,6 +5,7 @@ const Summary = ({ formData, returnPage }) => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
         <h2 className="text-2xl font-bold mb-4 text-center">Form Response Summary</h2>
+        <p className="text-center mb-4">Thank you for your response 🙏</p>
         <div className="space-y-2">
           <p><span className="font-semibold">Name:</span> {formData.name}</p>
           <p><span className="font-semibold">Email:</span> {formData.email}</p>

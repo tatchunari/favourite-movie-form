@@ -2,7 +2,7 @@ import { useState } from "react"
 import MovieList from "../components/MovieList.jsx";
 import WarningMessage from "../components/WarningMessage.jsx";
 
-const Form = () => {
+const Form = ({setFormData}) => {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -19,6 +19,8 @@ const Form = () => {
     setEmail("");
     setFavMovie("");
     setComment("");
+    setSubmitted(false);
+    // setFormData(null);
   }
 
   const handleSubmit = (e) => {
@@ -28,89 +30,112 @@ const Form = () => {
     if (
     !name.trim() ||
     !email.trim() ||
-    !comment.trim() ||
+    !favMovie.trim() ||
     !emailRegex.test(email)
   ) {
     return; // stop here if any field is invalid
   }
+
+   setFormData({
+    name,
+    email,
+    favMovie,
+    comment,
+  });
+
+  // New Form Data
+  const formData = {
+    name: name,
+    email: email,
+    favMovie: favMovie,
+    comment: comment,
+  }
   }
   
   return (
-    <div>
-      <h1>Favourite Movie Survey</h1>
-      <form onSubmit={handleSubmit}>
-        {/* Name */}
-        <label>
-          Name
-          <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded border-gray-500/30 w-full max-w-m">
-          <input 
-          type="text" 
-          placeholder="Enter your first name here"
-          className="px-2 w-full h-full outline-none text-gray-500 bg-transparent"
-          value={name}
-          onChange={(e) => {setName(e.target.value)}}
-          />
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-lg">
+        <h1 className="text-2xl font-bold mb-6 text-center">Favourite Movie Survey</h1>
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+
+          {/* Name */}
+          <label className="flex flex-col text-gray-700 text-sm">
+            Name
+            <input 
+              type="text"
+              placeholder="Enter your first name here"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="mt-1 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500 transition"
+            />
+            {submitted && !name.trim() && (
+              <WarningMessage message="Name is required" />
+            )}
+          </label>
+
+          {/* Email */}
+          <label className="flex flex-col text-gray-700 text-sm">
+            Email
+            <input 
+              type="email"
+              placeholder="Enter your email here"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="mt-1 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500 transition"
+            />
+            {submitted && !email.trim() && (
+              <WarningMessage message="Email is required" />
+            )}
+            {submitted && email && !emailRegex.test(email) && (
+              <WarningMessage message="Invalid Email Format" />
+            )}
+          </label>
+
+          {/* Movie Radio Options */}
+          <div className="text-gray-700">
+            <h2 className="mb-2 font-semibold">Choose your favourite movie</h2>
+            <MovieList 
+              favMovie={favMovie}
+              setFavMovie={setFavMovie}
+            />
+            {submitted && !favMovie.trim() && (
+              <WarningMessage message="Please choose your favourite movie" />
+            )}
           </div>
-        </label>
-        {submitted && !name.trim() && (
-          <WarningMessage inputType="Name"/>
-          )}
 
-        {/* Email */}
-        <label>
-          Email
-          <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded border-gray-500/30 w-full max-w-m">
-          <input 
-          type="email"
-          placeholder="Enter your email here"
-          className="px-2 w-full h-full outline-none text-gray-500 bg-transparent"
-          value={email}
-          onChange={(e) => {setEmail(e.target.value)}}
-          />
+          {/* Comment Section */}
+          <label className="flex flex-col text-gray-700 text-sm">
+            Leave your comment (optional)
+            <textarea 
+              placeholder="Enter your comment here"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              className="mt-1 px-3 py-2 h-32 border border-gray-300 rounded resize-none focus:outline-none focus:border-indigo-500 transition"
+            />
+          </label>
+
+          {/* Buttons Section */}
+          <div className="flex flex-wrap gap-4 mt-4">
+            <button 
+              type="submit"
+              className="flex-1 py-3 text-white bg-slate-700 rounded-lg text-sm font-medium hover:bg-slate-800 transition"
+            >
+              Submit Form
+            </button>
+            <button 
+              type="button"
+              onClick={handleReset}
+              className="flex-1 py-3 text-white bg-indigo-500 rounded-lg text-sm font-medium hover:bg-indigo-600 transition"
+            >
+              Reset
+            </button>
           </div>
-        </label>
 
-        {/* Movie Radio Options */}
-        <h2>Choose your favourite movie</h2>
-        <MovieList 
-        favMovie={favMovie}
-        setFavMovie={setFavMovie}
-        onChange={(e) => {setFavMovie(e.target.value)}}
-        /> 
-
-        {/* Comment Section */}
-        <label>
-          Leave your comment (optional)
-          <textarea 
-          placeholder="Enter your comment here"
-          className="w-full mt-2 p-2 h-40 border border-gray-500/30 rounded resize-none outline-none focus:border-indigo-300"
-          value={comment}
-          onChange={(e) => {setComment(e.target.value)}}
-          >
-          </textarea>
-        </label>
-
-        {/* Buttons Section */}
-        <div className="flex flex-wrap gap-4 md:gap-10">
-
-        {/* Submit Button */}
-        <button 
-        type="submit"
-        className="w-40 py-3 active:scale-95 transition text-sm text-white rounded-lg bg-slate-700"
-        >
-          Submit Form
-        </button>
-
-        {/* Reset Form Button */}
-        <button 
-        onClick={handleReset}
-        className="w-40 py-3 active:scale-95 transition text-sm text-white rounded-lg bg-indigo-500"
-        >
-          Reset
-        </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
+
   )
 }
 

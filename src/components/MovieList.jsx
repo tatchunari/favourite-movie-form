@@ -1,5 +1,4 @@
 import movies from "../data/movies"
-import { useState } from "react";
 
 const MovieList = ({favMovie, setFavMovie}) => {
 
@@ -8,22 +7,25 @@ const MovieList = ({favMovie, setFavMovie}) => {
   }
 
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       {movies.map((movie) => (
-          <div key={movie.title}>
-          <label>
+          <div 
+          key={movie.title}
+          className="flex items-center gap-2 text-gray-700">
             <input 
             type="radio" 
             name="option"
             value={movie.title}
             checked={favMovie === movie.title}
             onChange={handleChange}
+            className="w-4 h-4"
             />
-            {movie.title}
+            <label>
+            {movie.title} ({movie.year}) By {movie.director}
           </label>
           </div>
         ))}
-        <p>Selected: {favMovie || "None"}</p>
+        <p>Selected: <span className="font-bold">{favMovie || "None"}</span></p>
 
     </div>
   )

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import MovieList from "../components/MovieList.jsx";
+import WarningMessage from "../components/WarningMessage.jsx";
 
 const Form = () => {
 
@@ -51,6 +52,9 @@ const Form = () => {
           />
           </div>
         </label>
+        {submitted && !name.trim() && (
+          <WarningMessage inputType="Name"/>
+          )}
 
         {/* Email */}
         <label>

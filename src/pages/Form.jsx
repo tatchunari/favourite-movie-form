@@ -55,7 +55,7 @@ const Form = ({setFormData}) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-lg">
-        <h1 className="text-2xl font-bold mb-6 text-center">Favourite Movie Survey</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">🎬 Favourite Movie Survey 🎬</h1>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
 

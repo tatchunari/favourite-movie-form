@@ -1,12 +1,10 @@
 import movies from "../data/movies"
 import { useState } from "react";
 
-const MovieList = () => {
-
-  const [selectedOption, setSelectedOption] = useState("");
+const MovieList = ({favMovie, setFavMovie}) => {
 
   const handleChange = (e) => {
-    setSelectedOption(e.target.value);
+    setFavMovie(e.target.value);
   }
 
   return (
@@ -18,14 +16,14 @@ const MovieList = () => {
             type="radio" 
             name="option"
             value={movie.title}
-            checked={selectedOption === movie.title}
+            checked={favMovie === movie.title}
             onChange={handleChange}
             />
             {movie.title}
           </label>
           </div>
         ))}
-        <p>Selected: {selectedOption || "None"}</p>
+        <p>Selected: {favMovie || "None"}</p>
 
     </div>
   )

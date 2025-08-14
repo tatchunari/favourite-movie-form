@@ -1,6 +1,5 @@
 import { useState } from "react"
 import InputBox from "../components/InputBox"
-import movies from "../data/movies.js"
 import MovieList from "../components/MovieList.jsx";
 
 const Form = () => {
@@ -12,6 +11,15 @@ const Form = () => {
   const [submitted, setSubmitted] = useState(false);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Reset Form
+  const handleReset = () => {
+    setName("");
+    setEmail("");
+    setFavMovie("");
+    setComment("");
+  }
+  
   return (
     <div>
       <h1>Favourite Movie Survey</h1>
@@ -46,7 +54,7 @@ const Form = () => {
           >
           </textarea>
         </label>
-        <button>Reset</button>
+        <button onClick={handleReset}>Reset</button>
       </form>
     </div>
   )

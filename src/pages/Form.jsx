@@ -63,6 +63,7 @@ const Form = ({setFormData}) => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="mt-1 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500 transition"
+              required
             />
             {messages.name && <WarningMessage message={messages.name} />}
           </label>
@@ -76,6 +77,7 @@ const Form = ({setFormData}) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="mt-1 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500 transition"
+              required
             />
             {messages.email && <WarningMessage message={messages.email} />}
           </label>
@@ -86,6 +88,7 @@ const Form = ({setFormData}) => {
             <MovieList 
               favMovie={favMovie}
               setFavMovie={setFavMovie}
+              required
             />
            {messages.favMovie && <WarningMessage message={messages.favMovie} />}
           </div>

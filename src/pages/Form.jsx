@@ -1,6 +1,7 @@
 import { useState } from "react"
 import MovieList from "../components/MovieList.jsx";
 import WarningMessage from "../components/WarningMessage.jsx";
+import { validateForm } from "../utils/validateForm.js"
 
 const Form = ({setFormData}) => {
 
@@ -9,9 +10,6 @@ const Form = ({setFormData}) => {
   const [favMovie, setFavMovie] = useState("");
   const [comment, setComment] = useState("");
   const [submitted, setSubmitted] = useState(false);
-
-  // For email validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   // Reset Form
   const handleReset = () => {
@@ -27,14 +25,9 @@ const Form = ({setFormData}) => {
     e.preventDefault();
     setSubmitted(true);
 
-    if (
-    !name.trim() ||
-    !email.trim() ||
-    !favMovie.trim() ||
-    !emailRegex.test(email)
-  ) {
-    return; // stop here if any field is invalid
-  }
+    const formErrors = validateForm({ name, email, favMovie });
+
+    if (Object.keys(formErrors).length > 0) return;
 
    setFormData({
     name,

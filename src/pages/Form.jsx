@@ -1,7 +1,7 @@
 import { useState } from "react"
 import MovieList from "../components/MovieList.jsx";
 import WarningMessage from "../components/WarningMessage.jsx";
-import { validateForm } from "../utils/validateForm.js"
+import { validateForm, emailRegex } from "../utils/validateForm.js"
 
 const Form = ({setFormData}) => {
 
@@ -25,9 +25,9 @@ const Form = ({setFormData}) => {
     e.preventDefault();
     setSubmitted(true);
 
-    const formErrors = validateForm({ name, email, favMovie });
+    const errorMessages = validateForm({ name, email, favMovie });
 
-    if (Object.keys(formErrors).length > 0) return;
+    if (Object.keys(errorMessages).length > 0) return;
 
    setFormData({
     name,
@@ -44,6 +44,8 @@ const Form = ({setFormData}) => {
     comment: comment,
   }
   }
+
+  const messages = submitted ? validateForm({ name, email, favMovie }) : {};
   
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
@@ -62,9 +64,7 @@ const Form = ({setFormData}) => {
               onChange={(e) => setName(e.target.value)}
               className="mt-1 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500 transition"
             />
-            {submitted && !name.trim() && (
-              <WarningMessage message="Name is required" />
-            )}
+            {messages.name && <WarningMessage message={messages.name} />}
           </label>
 
           {/* Email */}
@@ -77,12 +77,7 @@ const Form = ({setFormData}) => {
               onChange={(e) => setEmail(e.target.value)}
               className="mt-1 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500 transition"
             />
-            {submitted && !email.trim() && (
-              <WarningMessage message="Email is required" />
-            )}
-            {submitted && email && !emailRegex.test(email) && (
-              <WarningMessage message="Invalid Email Format" />
-            )}
+            {messages.email && <WarningMessage message={messages.email} />}
           </label>
 
           {/* Movie Radio Options */}
@@ -92,9 +87,7 @@ const Form = ({setFormData}) => {
               favMovie={favMovie}
               setFavMovie={setFavMovie}
             />
-            {submitted && !favMovie.trim() && (
-              <WarningMessage message="Please choose your favourite movie" />
-            )}
+           {messages.favMovie && <WarningMessage message={messages.favMovie} />}
           </div>
 
           {/* Comment Section */}
